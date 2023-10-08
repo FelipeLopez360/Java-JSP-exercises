@@ -11,51 +11,60 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <title>Empleados</title>
-    </head>
-    <body>
-        <%
-            Connection connection=null;
-            Statement statement=null;
-            ResultSet resultSet=null;
-        %>
-        <div class="container mt-5">
-            <div class="row">
-                <div class="col-sm">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">NAME</th>
-                            <th scope="col">ADDRESS</th>
-                            <th scope="col">CELL PHONE</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <%
-                            Class.forName("com.mysql.cj.jdbc.Driver");
-                            connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/jsp?"+"user=Felipe&password=123456");
-                            statement = connection.createStatement();
-                            resultSet = statement.executeQuery("SELECT * FROM `empleados`;");
-                            while(resultSet.next()){
-                                %>
-                            <tr>
-                                <th scope="row"><%= resultSet.getString(1)%></th>
-                                <td><%= resultSet.getString(2)%></td>
-                                <td><%= resultSet.getString(3)%></td>
-                                <td><%= resultSet.getString(4)%></td>
-                            </tr>
-                                <%
-                            }
-                        %>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Empleados</title>
+</head>
+<body>
+<%
+    Connection connection = null;
+    Statement statement = null;
+    ResultSet resultSet = null;
+%>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">NAME</th>
+                    <th scope="col">ADDRESS</th>
+                    <th scope="col">CELL PHONE</th>
+                </tr>
+                </thead>
+                <tbody>
+                <%
+                    try {
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                        connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/jsp?" + "user=Felipe&password=123456");
+                        statement = connection.createStatement();
+                        resultSet = statement.executeQuery("SELECT * FROM `empleados`;");
+                        while (resultSet.next()) {
+                %>
+                <tr>
+                    <th scope="row"><%= resultSet.getString(1)%>
+                    </th>
+                    <td><%= resultSet.getString(2)%>
+                    </td>
+                    <td><%= resultSet.getString(3)%>
+                    </td>
+                    <td><%= resultSet.getString(4)%>
+                    </td>
+                </tr>
+                <%
+                        }
+                    }
+                    catch (Exception e) {
+                        out.print("Error en mysql" +e);
+                    }
+                %>
+                </tbody>
+            </table>
         </div>
-    </body>
+    </div>
+</div>
+</body>
 </html>
