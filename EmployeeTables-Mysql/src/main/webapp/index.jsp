@@ -1,8 +1,10 @@
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.DriverManager" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.Statement" %>
 <%@ page import="com.mysql.cj.jdbc.Driver" %>
-<%@ page import="com.sun.xml.internal.bind.v2.model.core.ID" %><%--
+<%@ page import="java.util.*"%>
+<%--
     Document   : index
     Created on : 6/10/2023, 9:30:05 p. m.
     Author     : FelipeAndresLopez
@@ -13,16 +15,14 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css" integrity="sha384-QYIZto+st3yW+o8+5OHfT6S482Zsvz2WfOzpFSXMF9zqeLcFV0/wlZpMtyFcZALm" crossorigin="anonymous">
-    <title>Employee</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" media="screen" />
 </head>
 <body>
 <%
-    Connection connection = null;
-    Statement statement = null;
-    ResultSet resultSet = null;
+    Connection connection;
+    Statement statement;
+    ResultSet resultSet;
 %>
 <div class="container mt-5">
     <div class="row">
@@ -35,7 +35,7 @@
                         <h3>Employee</h3></th>
                     <th scope="col">
                         <a href="create.jsp">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248H440c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V136c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H552v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+                            <i class="fa fa-user" aria-hidden="true"></i>
                         </a>
                     </th>
 
@@ -52,9 +52,10 @@
                 <%
                     try {
                         Class.forName("com.mysql.cj.jdbc.Driver");
-                        connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/jsp?" + "user=Felipe&password=123456");
+                        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jsp?user=root");
+                        //connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/jsp?user=admin&password=1234");
                         statement = connection.createStatement();
-                        resultSet = statement.executeQuery("SELECT * FROM `empleados`;");
+                        resultSet = statement.executeQuery("SELECT * FROM employee");
                         while (resultSet.next()) {
                 %>
                 <tr>
@@ -63,16 +64,24 @@
                     <td><%= resultSet.getString(3)%></td>
                     <td><%= resultSet.getString(4)%></td>
                     <td>
-                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/></svg>
+                        <a href="edit.jsp?id=<%= resultSet.getString(1)%>&name=<%= resultSet.getString(2)%>&address=<%= resultSet.getString(3)%>&cellPhone=<%= resultSet.getString(4)%>">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
 
-                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/></svg>
+
+                        <a href="delete.jsp?id=<%= resultSet.getString(1)%>&name=<%= resultSet.getString(2)%>&address=<%= resultSet.getString(3)%>&cellPhone=<%= resultSet.getString(4)%>">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+
                     </td>
                 </tr>
                 <%
                         }
                     }
                     catch (Exception e) {
-                        out.print("Error en mysql" +e);
+                        //out.print("Error en mysql" +e)
+                            e.printStackTrace();
+
                     }
                 %>
                 </tbody>

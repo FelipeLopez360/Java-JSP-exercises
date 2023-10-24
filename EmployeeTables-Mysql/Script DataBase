@@ -25,22 +25,22 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `empleados`
+-- Estructura de tabla para la tabla `employee`
 --
 
-CREATE TABLE `empleados` (
+CREATE TABLE `employee` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `direccion` varchar(100) NOT NULL,
-  `telefono` varchar(100) NOT NULL
+  `name` varchar(100) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `cellphone` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `empleados`
+-- Volcado de datos para la tabla `employee`
 --
 
-INSERT INTO `empledos` (`id`, `nombre`, `direccion`, `telefono`) VALUES
-(1, 'eugenio', 'Mexco', '7122245454'),
+INSERT INTO `employee` (`id`, `name`, `address`, `cellphone`) VALUES
+(1, 'eugenio', 'Mexico', '7122245454'),
 (2, 'Juana', 'Bolivia', '56788445121');
 
 --
@@ -48,9 +48,9 @@ INSERT INTO `empledos` (`id`, `nombre`, `direccion`, `telefono`) VALUES
 --
 
 --
--- Indices de la tabla `empleados`
+-- Indices de la tabla `employee`
 --
-ALTER TABLE `empleados`
+ALTER TABLE `employee`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -58,9 +58,9 @@ ALTER TABLE `empleados`
 --
 
 --
--- AUTO_INCREMENT de la tabla `empleados`
+-- AUTO_INCREMENT de la tabla `employee`
 --
-ALTER TABLE `empleados`
+ALTER TABLE `employee`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
